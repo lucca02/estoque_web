@@ -1,5 +1,4 @@
 <?php
-// Pega o e-mail salvo no cookie, se existir
 $email_salvo = isset($_COOKIE['estoq_lembrar']) ? $_COOKIE['estoq_lembrar'] : '';
 
 session_start();
@@ -67,7 +66,6 @@ if (isset($_SESSION['usuario_id'])) {
         <?php endif; ?>
 
         <form action="autenticar.php" method="POST">
-            <!-- AQUI ESTÁ O CAMPO DE EMAIL ÚNICO -->
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required value="<?= htmlspecialchars($email_salvo) ?>">
@@ -104,10 +102,10 @@ if (isset($_SESSION['usuario_id'])) {
         const input = document.getElementById(idInput);
         if (input.type === 'password') {
             input.type = 'text';
-            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; // Olho cortado
+            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
         } else {
             input.type = 'password';
-            btn.innerHTML = '<i class="fa-solid fa-eye"></i>'; // Olho aberto
+            btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
         }
     }
 </script>

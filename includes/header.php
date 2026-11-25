@@ -1,5 +1,4 @@
 <?php
-// Descobre qual é a página atual para marcar no menu
 $pagina_atual = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
@@ -7,14 +6,11 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
 <head>
     <meta charset="UTF-8">
     <title>Estoq+ | Gestão de Estoque</title>
-    <!-- Caminho absoluto para o CSS -->
     <link rel="stylesheet" href="/estoque_web/css/style.css">
-    <!-- Biblioteca de Ícones FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Menu Lateral (Sidebar) -->
     <nav class="sidebar">
         <div class="sidebar-logo" style="gap: 10px;">
             <img src="/estoque_web/img/logo.png" alt="Ícone Estoq+" style="max-height: 35px; width: auto;">
@@ -43,9 +39,7 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
         </div>
     </nav>
 
-    <!-- Área Principal -->
     <main class="main-content">
-        <!-- Topbar (Header) -->
         <header class="topbar">
             <div class="topbar-welcome">
                 <h1>Olá, <?= explode(' ', $_SESSION['usuario_nome'])[0] ?>!</h1>
@@ -63,5 +57,4 @@ $pagina_atual = basename($_SERVER['PHP_SELF']);
             </div>
         </header>
         
-        <!-- O conteúdo da página começa aqui -->
         <div class="page-content">

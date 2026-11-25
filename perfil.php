@@ -11,7 +11,6 @@ $tipo_mensagem = "";
 
 $id_usuario = $_SESSION['usuario_id'];
 
-// LÓGICA: ATUALIZAR DADOS PESSOAIS
 if (isset($_POST['acao']) && $_POST['acao'] == 'atualizar_dados') {
     $nome = trim($_POST['nome']);
     $sobrenome = trim($_POST['sobrenome']);
@@ -32,7 +31,6 @@ if (isset($_POST['acao']) && $_POST['acao'] == 'atualizar_dados') {
     }
 }
 
-// LÓGICA: ATUALIZAR SENHA
 if (isset($_POST['acao']) && $_POST['acao'] == 'atualizar_senha') {
     $senha_atual = $_POST['senha_atual'];
     $nova_senha = $_POST['nova_senha'];
@@ -65,7 +63,6 @@ $primeiro_nome = $partes_nome[0];
 $sobrenome = $partes_nome[1] ?? ''; 
 $saldo_ficticio = 1450.75;
 
-// INCLUI O HEADER PADRÃO
 require 'includes/header.php';
 ?>
 
@@ -77,7 +74,6 @@ require 'includes/header.php';
     </div>
 <?php endif; ?>
 
-<!-- Box de Resumo -->
 <div style="display: flex; justify-content: space-between; background: #159AE3; color: white; padding: 20px 30px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <div>
         <span style="font-size: 12px; opacity: 0.9;">Nome Completo</span><br>
@@ -99,7 +95,6 @@ require 'includes/header.php';
         <span style="font-size: 12px; opacity: 0.9;">Saldo Estimado</span><br>
         <div style="display: flex; align-items: center; gap: 10px;">
             <strong id="valor-saldo" style="font-size: 16px;">R$ <?= number_format($saldo_ficticio, 2, ',', '.') ?></strong>
-            <!-- ÍCONE ATUALIZADO AQUI -->
             <button type="button" style="background: none; border: none; cursor: pointer; font-size: 18px; color: white;" onclick="toggleSaldo()" id="btn-olho">
                 <i class="fa-solid fa-eye"></i>
             </button>
@@ -107,7 +102,6 @@ require 'includes/header.php';
     </div>
 </div>
 
-<!-- Formulário de Dados -->
 <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px;">
     <h3 style="color: #073076; margin-bottom: 20px;">Editar Informações Básicas</h3>
     <form action="perfil.php" method="POST">
@@ -139,7 +133,6 @@ require 'includes/header.php';
     </form>
 </div>
 
-<!-- Formulário de Senha -->
 <div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
     <h3 style="color: #073076; margin-bottom: 20px;">Alterar Senha</h3>
     <form action="perfil.php" method="POST">
@@ -160,7 +153,6 @@ require 'includes/header.php';
     </form>
 </div>
 
-<!-- SCRIPT ATUALIZADO AQUI -->
 <script>
     let saldoVisivel = true;
     function toggleSaldo() {

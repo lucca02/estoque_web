@@ -2,14 +2,27 @@
 session_start();
 if (!isset($_SESSION['usuario_id'])) { header("Location: ../login.php"); exit(); }
 require '../config/conexao.php';
+
 $mensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
-    $stmt = $conn->prepare("INSERT INTO categorias (nome) VALUES (?)");
-    $stmt->bind_param("s", $nome);
-    if ($stmt->execute()) { $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Categoria cadastrada!</div>"; } 
-    else { $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: Categoria já existe.</div>"; }
+
+    try {
+        // Tenta inserir a categoria
+        $stmt = $conn->prepare("INSERT INTO categorias (nome) VALUES (?)");
+        $stmt->bind_param("s", $nome);
+        $stmt->execute();
+        
+        $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Categoria cadastrada com sucesso!</div>";
+    } catch (mysqli_sql_exception $e) {
+        // Captura o erro de chave duplicada
+        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: Já existe uma categoria cadastrada com este nome (" . htmlspecialchars($nome) . ").</div>";
+        } else {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro ao cadastrar: " . $e->getMessage() . "</div>";
+        }
+    }
 }
 require '../includes/header.php';
 ?>

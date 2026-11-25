@@ -10,13 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo = $_POST['codigo']; $nome = $_POST['nome']; $id_categoria = $_POST['id_categoria'];
     $quantidade = $_POST['quantidade_estoque']; $preco = $_POST['preco_venda'];
 
-    $stmt = $conn->prepare("INSERT INTO produtos (codigo, nome, id_categoria, quantidade_estoque, preco_venda) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssiid", $codigo, $nome, $id_categoria, $quantidade, $preco);
-
-    if ($stmt->execute()) {
+    try {
+        // Tenta inserir no banco
+        $stmt = $conn->prepare("INSERT INTO produtos (codigo, nome, id_categoria, quantidade_estoque, preco_venda) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssiid", $codigo, $nome, $id_categoria, $quantidade, $preco);
+        $stmt->execute();
+        
         $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Produto cadastrado com sucesso!</div>";
-    } else {
-        $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: " . $stmt->error . "</div>";
+    } catch (mysqli_sql_exception $e) {
+        // Se der erro no banco (ex: código duplicado), cai aqui e mostra uma mensagem amigável
+        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: Já existe um produto cadastrado com este código (" . htmlspecialchars($codigo) . ").</div>";
+        } else {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro ao cadastrar: " . $e->getMessage() . "</div>";
+        }
     }
 }
 require '../includes/header.php';

@@ -44,8 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             flex-direction: column; 
             justify-content: center; 
             align-items: center; 
-            padding: 20px; /* Reduzi o padding geral */
-            overflow-y: auto; /* Permite rolar se a tela for muito pequena */
+            padding: 20px;
+            overflow-y: auto;
         }
         
         .form-container { width: 100%; max-width: 350px; }
@@ -57,9 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         .form-container h2 { color: #333; font-size: 20px; font-weight: normal; margin-bottom: 15px; /* Reduzi de 20 para 15 */ }
         
-        .form-group { margin-bottom: 10px; /* Reduzi de 15 para 10 */ }
+        .form-group { margin-bottom: 10px; }
         .form-group label { display: block; font-size: 14px; color: #333; margin-bottom: 4px; font-weight: 600; /* Reduzi de 5 para 4 */ }
-        .form-group input, .form-group select { width: 100%; padding: 10px; /* Reduzi de 12 para 10 */ border: 1px solid #D9D9D9; border-radius: 20px; box-sizing: border-box; outline: none; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #D9D9D9; border-radius: 20px; box-sizing: border-box; outline: none; }
         .form-group input:focus, .form-group select:focus { border-color: #159AE3; }
         
         .btn-entrar { width: 100%; background-color: #073076; color: white; padding: 10px; /* Reduzi de 12 para 10 */ border: none; border-radius: 20px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
@@ -140,10 +140,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const input = document.getElementById(idInput);
         if (input.type === 'password') {
             input.type = 'text';
-            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; // Olho cortado
+            btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
         } else {
             input.type = 'password';
-            btn.innerHTML = '<i class="fa-solid fa-eye"></i>'; // Olho aberto
+            btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
         }
     }
 </script>

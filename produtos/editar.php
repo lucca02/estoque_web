@@ -10,11 +10,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo = $_POST['codigo']; $nome = $_POST['nome']; $id_categoria = $_POST['id_categoria'];
     $quantidade = $_POST['quantidade_estoque']; $preco = $_POST['preco_venda'];
 
-    $stmt = $conn->prepare("UPDATE produtos SET codigo=?, nome=?, id_categoria=?, quantidade_estoque=?, preco_venda=? WHERE id_produto=?");
-    $stmt->bind_param("ssiidi", $codigo, $nome, $id_categoria, $quantidade, $preco, $id);
-
-    if ($stmt->execute()) { $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Produto atualizado com sucesso!</div>"; } 
-    else { $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: " . $stmt->error . "</div>"; }
+    try {
+        $stmt = $conn->prepare("UPDATE produtos SET codigo=?, nome=?, id_categoria=?, quantidade_estoque=?, preco_venda=? WHERE id_produto=?");
+        $stmt->bind_param("ssiidi", $codigo, $nome, $id_categoria, $quantidade, $preco, $id);
+        $stmt->execute();
+        
+        $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Produto atualizado com sucesso!</div>"; 
+    } catch (mysqli_sql_exception $e) {
+        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: O código (" . htmlspecialchars($codigo) . ") já pertence a outro produto.</div>";
+        } else {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro ao atualizar: " . $e->getMessage() . "</div>";
+        }
+    }
 }
 
 $stmt = $conn->prepare("SELECT * FROM produtos WHERE id_produto = ?");

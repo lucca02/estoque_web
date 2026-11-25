@@ -8,10 +8,20 @@ $id = $_GET['id']; $mensagem = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST['nome'];
-    $stmt = $conn->prepare("UPDATE categorias SET nome=? WHERE id_categoria=?");
-    $stmt->bind_param("si", $nome, $id);
-    if ($stmt->execute()) { $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Atualizada!</div>"; } 
-    else { $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: " . $stmt->error . "</div>"; }
+    
+    try {
+        $stmt = $conn->prepare("UPDATE categorias SET nome=? WHERE id_categoria=?");
+        $stmt->bind_param("si", $nome, $id);
+        $stmt->execute();
+        
+        $mensagem = "<div style='color: green; margin-bottom: 15px; font-weight: bold;'>Categoria atualizada com sucesso!</div>";
+    } catch (mysqli_sql_exception $e) {
+        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro: Já existe outra categoria com este nome.</div>";
+        } else {
+            $mensagem = "<div style='color: red; margin-bottom: 15px; font-weight: bold;'>Erro ao atualizar: " . $e->getMessage() . "</div>";
+        }
+    }
 }
 
 $stmt = $conn->prepare("SELECT * FROM categorias WHERE id_categoria = ?");
